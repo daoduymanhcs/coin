@@ -78,7 +78,6 @@ class DraftController extends Controller
         $connection->volumnUsd = $volumnUsd;
         if($connection->save()) 
         {
-            echo "done";
         }
     }
     /**

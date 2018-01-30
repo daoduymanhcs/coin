@@ -12,9 +12,10 @@
 */
 
 Route::get('/', function () {
-    return view('index/overview');
+    return view('welcome');
 });
 Route::resource('draft', 'DraftController');
 Route::get('market', 'DraftController@market');
 
 Route::get('overview', 'PumpController@index');
+Route::get('record', 'PumpController@record');

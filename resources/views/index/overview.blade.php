@@ -47,8 +47,9 @@
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <h1 class="page-header">Quantstamp</h1>
-          <h3>Top prices</h3>
           <div class="row placeholders">
+            <div class="col-md-6">
+              <h3>Top prices</h3>
               <table class="table">
                 <tbody> 
                   <tr class="active">
@@ -59,7 +60,7 @@
                   </tr>
                   @foreach ($top as $data)
                   <tr class="warning">
-                    <td>#</td>
+                    <td>{{$data->id}}</td>
                     <td>{{$data->eth}}</td>
                     <td>{{$data->volumnEth}}</td>
                     <td class="danger">{{$data->created_at}}</td>
@@ -67,10 +68,10 @@
                   @endforeach
                 </tbody>
               </table>
-          </div>
-          <h3>lowest prices</h3>
-          <div class="row placeholders">
-              <table class="table">
+            </div>
+            <div class="col-md-6">
+              <h3>Lowest prices</h3>
+                <table class="table">
                 <tbody> 
                   <tr class="active">
                     <td>No</td>
@@ -80,7 +81,7 @@
                   </tr>
                   @foreach ($dump as $data)
                   <tr class="warning">
-                    <td>#</td>
+                    <td>{{$data->id}}</td>
                     <td>{{$data->eth}}</td>
                     <td>{{$data->volumnEth}}</td>
                     <td class="danger">{{$data->created_at}}</td>
@@ -88,6 +89,7 @@
                   @endforeach
                 </tbody>
               </table>
+            </div>
           </div>
         </div>
       </div>
