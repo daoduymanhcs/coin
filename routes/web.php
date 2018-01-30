@@ -12,10 +12,9 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index/overview');
 });
 Route::resource('draft', 'DraftController');
 Route::get('market', 'DraftController@market');
 
-Route::resource('photos', 'PhotoController');
-Route::resource('doms', 'DomController');
+Route::get('overview', 'PumpController@index');
