@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateQuantstampsTable extends Migration
+class CreateReportsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class CreateQuantstampsTable extends Migration
      */
     public function up()
     {
-        Schema::create('quantstamps', function (Blueprint $table) {
+        Schema::create('reports', function (Blueprint $table) {
             $table->increments('id');
-            $table->double('usd');
-            $table->double('btc');
-            $table->double('eth');
-            $table->double('volumnBtc');
-            $table->double('volumnEth');
-            $table->double('volumnUsd');
+            $table->integer('token_id')->unsigned();
+            $table->integer('high_id')->unsigned();
+            $table->integer('low_id')->unsigned();
             $table->timestamps();
         });
     }
@@ -32,6 +29,6 @@ class CreateQuantstampsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('quantstamps');
+        Schema::dropIfExists('reports');
     }
 }

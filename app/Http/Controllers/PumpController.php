@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Quantstamp;
-use App\Qsplog;
+use App\Token;
+use App\Price;
+use App\Report;
 
 use Illuminate\Http\Request;
 
@@ -14,21 +15,29 @@ class PumpController extends Controller
        $this->date = date("Y-m-d");
     }
     //
-    public function index()
+    public function index($id)
     {
-		  $top = Quantstamp::top(3, $this->date);
-      $dump = Quantstamp::dump(3, $this->date);
+		  $top = Price::top(3, $this->date, $id);
+      $dump = Price::dump(3, $this->date, $id);
 		  return view('index/overview')->with('top', $top)
                                     ->with('dump', $dump);
     }
 
     public function record()
     {
-      $top = Quantstamp::top(1, $this->date);
-      $dump = Quantstamp::dump(1, $this->date);
-      $connection = new Qsplog;
-      $connection->high = $top[0]->id;
-      $connection->low = $dump[0]->id;
-      $connection->save();
+      $records = Token::active();
+      if($records)
+      {
+        foreach ($records as $key => $record) {
+          # code...
+          $top = Price::top(1, $this->date, $record->id);
+          $dump = Price::dump(1, $this->date, $record->id);
+          $connection = new Report;
+          $connection->token_id = $record->id;
+          $connection->high_id = $top[0]->id;
+          $connection->low_id = $dump[0]->id;
+          $connection->save();
+        }
+      }
     }
 }

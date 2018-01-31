@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateQsplogsTable extends Migration
+class CreatePricesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,15 @@ class CreateQsplogsTable extends Migration
      */
     public function up()
     {
-        Schema::create('qsplogs', function (Blueprint $table) {
+        Schema::create('prices', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('high')->unsigned();
-            $table->integer('low')->unsigned();
+            $table->integer('token_id')->unsigned();
+            $table->double('btc');
+            $table->double('eth');
+            $table->double('usd');
+            $table->double('volumnBtc');
+            $table->double('volumnEth');
+            $table->double('volumnUsd');
             $table->timestamps();
         });
     }
@@ -28,6 +33,6 @@ class CreateQsplogsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('qsplogs');
+        Schema::dropIfExists('prices');
     }
 }

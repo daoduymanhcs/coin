@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Quantstamp;
-
+use App\Token;
+use App\Price;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Symfony\Component\DomCrawler\Crawler;
@@ -37,47 +38,68 @@ class DraftController extends Controller
                     }
                 }
             );
-            // dd($domElement->filter('h1')->first());
-            // dd($domElement->filter('h2'));
-            // var_dump($domElement->nodeValue);
         }die;
         return view('welcome'); 
     }
 
     public function market()
-    {
-        $client = new Client(['base_uri' => 'https://coinmarketcap.com']);
-        $response = $client->get('https://coinmarketcap.com/currencies/quantstamp/');
-        $body = $response->getBody();
-        $remainingBytes = $body->getContents();
-        $crawler = new Crawler($remainingBytes);
-        $data = $crawler->filter('span[id="quote_price"]');
-        $dataBtc = $crawler->filter('span[class="text-gray details-text-medium"]')->eq(0);
-        $dataEth = $crawler->filter('span[class="text-gray details-text-medium"]')->eq(1);
-        $volumnEth = $crawler->filter('div[class="coin-summary-item-detail details-text-medium"]')->eq(1)->filter('span')->eq(6); // 1 4 6
-        $volumnEth = $volumnEth->text();
-        $volumnBtc = $crawler->filter('div[class="coin-summary-item-detail details-text-medium"]')->eq(1)->filter('span')->eq(4); // 1 4 6
-        $volumnBtc = $volumnBtc->text();
-        $volumnUsd = $crawler->filter('div[class="coin-summary-item-detail details-text-medium"]')->eq(1)->filter('span')->eq(1); // 1 4 6
-        $volumnUsd = $volumnUsd->text();
-        $BTC = $dataBtc->text();
-        $ETH = $dataEth->text();
-        $USD = $data->text();
-        $volumnBtc = str_replace( ',', '', trim($volumnBtc) );
-        settype($volumnBtc, "integer");
-        $volumnEth = str_replace( ',', '', trim($volumnEth) );
-        settype($volumnEth, "integer");
-        $volumnUsd = str_replace( ',', '', trim($volumnUsd) );
-        settype($volumnUsd, "integer");
-        $connection = new Quantstamp;
-        $connection->usd = (double)$USD;
-        $connection->btc = (double)$BTC;
-        $connection->eth = (double)$ETH;
-        $connection->volumnEth = $volumnEth;
-        $connection->volumnBtc = $volumnBtc;
-        $connection->volumnUsd = $volumnUsd;
-        if($connection->save()) 
+    { 
+        $records = Token::active();
+        if($records)
         {
+            foreach ($records as $key => $record) {
+                $this->USD = $this->BTC = $this->ETH = $this->volumnUsd = $this->volumnBtc = $this->volumnEth = 0;
+                $client = new Client(['base_uri' => 'https://coinmarketcap.com']);
+                $response = $client->get($record->url);
+                $body = $response->getBody();
+                $remainingBytes = $body->getContents();
+                $crawler = new Crawler($remainingBytes);
+                $dataUsd = $crawler->filter('span[id="quote_price"]');
+                $this->USD = $dataUsd->text();
+                $nodes = $crawler->filter('span[class="text-gray details-text-medium"]');
+                $nodes->each(function ($item, $i) {
+                    $i++;
+                    if($i == 1)
+                    {
+                        $this->BTC = $item->text();
+                    }
+                    if($i == 2) 
+                    {
+                        $this->ETH = $item->text();
+                    }
+                });
+                $Vnodes = $crawler->filter('div[class="coin-summary-item-detail details-text-medium"]')->eq(1)->filter('span');
+
+                $Vnodes->each(function ($item, $i) {
+                    $i++;
+                    if($i == 2)
+                    {
+                        $this->volumnUsd = $item->text();
+                    }
+                    if($i == 5)
+                    {
+                        $this->volumnBtc = $item->text();
+                    } 
+                    if($i == 7)
+                    {
+                        $this->volumnEth = $item->text();
+                    }                                        
+                });
+                $this->volumnBtc = str_replace( ',', '', trim($this->volumnBtc));
+                $this->volumnEth = str_replace( ',', '', trim($this->volumnEth));
+                $this->volumnUsd = str_replace( ',', '', trim($this->volumnUsd));
+                $connection = new Price;
+                $connection->token_id = $record->id;
+                $connection->btc = (double)($this->BTC ? $this->BTC : 0);
+                $connection->eth = (double)($this->ETH ? $this->ETH : 0);
+                $connection->usd = (double)($this->USD ? $this->USD : 0);
+                $connection->volumnBtc = (double)($this->volumnBtc ? $this->volumnBtc : 0);
+                $connection->volumnEth = (double)($this->volumnEth ? $this->volumnEth : 0);
+                $connection->volumnUsd = (double)($this->volumnUsd ? $this->volumnUsd : 0);
+                $connection->save();          
+            }
+        } else {
+            echo "Please create new token!!!";
         }
     }
     /**

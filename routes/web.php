@@ -14,8 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::resource('draft', 'DraftController');
+Route::resource('tokens', 'TokenController');
 Route::get('market', 'DraftController@market');
 
-Route::get('overview', 'PumpController@index');
+Route::get('overview/{id}', 'PumpController@index');
 Route::get('record', 'PumpController@record');

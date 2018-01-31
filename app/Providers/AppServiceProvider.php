@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Providers;
+use App\Token;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,6 +16,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+/*        $records = Token::record();
+        View::share('menus', $records);*/
     }
 
     /**
