@@ -16,8 +16,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
-        $records = Token::record();
-        View::share('menus', $records);
+/*        $records = Token::record();
+        View::share('menus', $records);*/
     }
 
     /**
