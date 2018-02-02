@@ -17,9 +17,11 @@ class PumpController extends Controller
     //
     public function index($id)
     {
+      $token = Token::detail($id);
 		  $top = Price::top(3, $this->date, $id);
       $dump = Price::dump(3, $this->date, $id);
 		  return view('index/overview')->with('top', $top)
+                                    ->with('token', $token)
                                     ->with('dump', $dump);
     }
 

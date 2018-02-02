@@ -15,5 +15,9 @@ class Token extends Model
     {
         return $query->Where('active', true)->get();
     }
-
+    // get detail of token
+    public function scopeDetail($query, $id)
+    {
+        return $query->Where('id', $id)->first();
+    }
 }

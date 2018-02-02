@@ -48,7 +48,7 @@ class DraftController extends Controller
         if($records)
         {
             foreach ($records as $key => $record) {
-                $this->USD = $this->BTC = $this->ETH = $this->volumnUsd = $this->volumnBtc = $this->volumnEth = 0;
+                $this->USD = $this->BTC = $this->ETH = $this->volumnUsd = $this->volumnBtc = $this->volumnEth = $this->capUsd = 0;
                 $client = new Client(['base_uri' => 'https://coinmarketcap.com']);
                 $response = $client->get($record->url);
                 $body = $response->getBody();
@@ -67,6 +67,13 @@ class DraftController extends Controller
                     {
                         $this->ETH = $item->text();
                     }
+                });
+                $Cap = $crawler->filter('div[class="coin-summary-item-detail details-text-medium"]')->eq(0)->filter('span');
+                $Cap->each(function ($item, $i) {
+                    if($i == 1)
+                    {
+                        $this->capUsd = $item->text();
+                    }                                     
                 });
                 $Vnodes = $crawler->filter('div[class="coin-summary-item-detail details-text-medium"]')->eq(1)->filter('span');
 
@@ -88,6 +95,7 @@ class DraftController extends Controller
                 $this->volumnBtc = str_replace( ',', '', trim($this->volumnBtc));
                 $this->volumnEth = str_replace( ',', '', trim($this->volumnEth));
                 $this->volumnUsd = str_replace( ',', '', trim($this->volumnUsd));
+                $this->capUsd    = str_replace( ',', '', trim($this->capUsd));
                 $connection = new Price;
                 $connection->token_id = $record->id;
                 $connection->btc = (double)($this->BTC ? $this->BTC : 0);
@@ -96,6 +104,7 @@ class DraftController extends Controller
                 $connection->volumnBtc = (double)($this->volumnBtc ? $this->volumnBtc : 0);
                 $connection->volumnEth = (double)($this->volumnEth ? $this->volumnEth : 0);
                 $connection->volumnUsd = (double)($this->volumnUsd ? $this->volumnUsd : 0);
+                $connection->capUsd    = (double)($this->capUsd ? $this->capUsd : 0);
                 $connection->save();          
             }
         } else {
