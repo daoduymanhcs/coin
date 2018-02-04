@@ -21,7 +21,7 @@ class PumpController extends Controller
 		  $top = Price::top(3, $this->date, $id);
       $dump = Price::dump(3, $this->date, $id);
       $reporthigh = Report::reporthigh(5, $id);
-      $reportlow = Report::reportlow(5, $id;
+      $reportlow = Report::reportlow(5, $id);
 		  return view('index/overview')->with('top', $top)
                                     ->with('token', $token)
                                     ->with('dump', $dump)
