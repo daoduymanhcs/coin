@@ -20,9 +20,13 @@ class PumpController extends Controller
       $token = Token::detail($id);
 		  $top = Price::top(3, $this->date, $id);
       $dump = Price::dump(3, $this->date, $id);
+      $reporthigh = Report::reporthigh(5);
+      $reportlow = Report::reportlow(5);
 		  return view('index/overview')->with('top', $top)
                                     ->with('token', $token)
-                                    ->with('dump', $dump);
+                                    ->with('dump', $dump)
+                                    ->with('reporthigh', $reporthigh)
+                                    ->with('reportlow', $reportlow);
     }
 
     public function record()

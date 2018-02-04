@@ -11,7 +11,7 @@ class Price extends Model
         return $query->where('created_at', '>' , $date.' 00:00:00')
         			  ->Where('token_id', '=', $token)
 				      ->where('created_at', '<' , $date.' 23:23:59')
-				      ->orderBy('eth', 'desc')
+				      ->orderBy('usd', 'desc')
                	      ->take($number)
                	      ->get();
     }
@@ -21,7 +21,7 @@ class Price extends Model
         return $query->where('created_at', '>' , $date.' 00:00:00')
         		->Where('token_id', '=', $token)
 				->where('created_at', '<' , $date.' 23:23:59')
-				->orderBy('eth', 'asc')
+				->orderBy('usd', 'asc')
                	->take($number)
                	->get();
     }
