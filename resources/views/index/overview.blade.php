@@ -14,7 +14,7 @@
               <td>% Volumn</td>
               <td>Time</td>
             </tr>
-            @foreach ($top as $data)
+            @foreach ($dump as $data)
             <tr class="warning">
               <td>{{$data->eth}}</td>
               <td>{{number_format($data->usd, 2, '.', '')}}</td>
@@ -62,7 +62,7 @@
               <td>% Volumn</td>
               <td>Time</td>
             </tr>
-            @foreach ($top as $data)
+            @foreach ($reportlow as $data)
             <tr class="warning">
               <td>{{$data->eth}}</td>
               <td>{{number_format($data->usd, 2, '.', '')}}</td>
@@ -84,7 +84,7 @@
               <td>% Volumn</td>
               <td>Time</td>
             </tr>
-            @foreach ($top as $data)
+            @foreach ($reporthigh as $data)
             <tr class="success">
               <td>{{$data->eth}}</td>
               <td>{{number_format($data->usd, 2, '.', '')}}</td>
