@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link rel="icon" href="https://getbootstrap.com/docs/3.3/favicon.ico">
 
-    <title>Dashboard Template for Bootstrap</title>
+    <title>Dashboard</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
