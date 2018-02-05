@@ -11,6 +11,7 @@ class Report extends Model
     {
         return $query->limit($number)
         				->join('prices', 'reports.high_id', '=', 'prices.id')
+        				->Where('prices.token_id', '=', $id)
         				->orderBy('reports.created_at', 'desc')
                	      	->get();
     }
@@ -18,6 +19,7 @@ class Report extends Model
     {
         return $query->limit($number)
         				->join('prices', 'reports.low_id', '=', 'prices.id')
+        				->Where('prices.token_id', '=', $id)
         				->orderBy('reports.created_at', 'desc')
                	      	->get();
     }
