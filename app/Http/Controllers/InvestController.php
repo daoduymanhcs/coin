@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Investment;
 use Illuminate\Http\Request;
-use Symfony\Component\DomCrawler\Crawler;
 
-class DomController extends Controller
+class InvestController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,25 +14,7 @@ class DomController extends Controller
      */
     public function index()
     {
-$html = <<<'HTML'
-<!DOCTYPE html>
-<html>
-    <body>
-        <p class="message">Hello World!</p>
-        <p>Hello Crawler!</p>
-    </body>
-</html>
-HTML;
-
-        $crawler = new Crawler($html);
-        $data = $crawler->filter('body > p');
-        $crawlerP = $crawler->filterXPath('descendant-or-self::body/p');
-        foreach ($crawlerP as $node) {
-            var_dump($node);
-            if($node->nodeValue) {
-                echo $node->nodeValue;
-            }
-        }
+        //
     }
 
     /**
@@ -54,6 +36,15 @@ HTML;
     public function store(Request $request)
     {
         //
+        $input = $request->all();
+        $connection = new Investment;
+        $connection->amount = trim($input['amount']);
+        $connection->type = trim($input['type']);
+        if($connection->save())
+        {
+            $request->session()->flash('status', 'Investment was successful!');
+        }
+        return redirect('/');
     }
 
     /**

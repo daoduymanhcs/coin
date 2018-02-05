@@ -17,7 +17,7 @@
             @foreach ($dump as $data)
             <tr class="warning">
               <td>{{$data->eth}}</td>
-              <td>{{number_format($data->usd, 2, '.', '')}}</td>
+              <td>{{number_format($data->usd, 3, '.', '')}}</td>
               <td>{{$data->volumnEth}}</td>
               <td>{{number_format(($data->volumnUsd / $data->capUsd) * 100, 2, '.', '')}}</td>
               <td class="danger">{{$data->created_at}}</td>
@@ -40,7 +40,7 @@
             @foreach ($top as $data)
             <tr class="success">
               <td>{{$data->eth}}</td>
-              <td>{{number_format($data->usd, 2, '.', '')}}</td>
+              <td>{{number_format($data->usd, 3, '.', '')}}</td>
               <td>{{$data->volumnEth}}</td>
               <td>{{number_format(($data->volumnUsd / $data->capUsd) * 100, 2, '.', '')}}</td>
               <td class="danger">{{$data->created_at}}</td>
@@ -65,7 +65,7 @@
             @foreach ($reportlow as $data)
             <tr class="warning">
               <td>{{$data->eth}}</td>
-              <td>{{number_format($data->usd, 2, '.', '')}}</td>
+              <td>{{number_format($data->usd, 3, '.', '')}}</td>
               <td>{{$data->volumnEth}}</td>
               <td>{{number_format(($data->volumnUsd / $data->capUsd) * 100, 2, '.', '')}}</td>
               <td class="danger">{{$data->created_at}}</td>
@@ -87,7 +87,7 @@
             @foreach ($reporthigh as $data)
             <tr class="success">
               <td>{{$data->eth}}</td>
-              <td>{{number_format($data->usd, 2, '.', '')}}</td>
+              <td>{{number_format($data->usd, 3, '.', '')}}</td>
               <td>{{$data->volumnEth}}</td>
               <td>{{number_format(($data->volumnUsd / $data->capUsd) * 100, 2, '.', '')}}</td>
               <td class="danger">{{$data->created_at}}</td>

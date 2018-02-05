@@ -11,10 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::resource('/', 'MainController');
 Route::resource('tokens', 'TokenController');
+Route::resource('invests', 'InvestController');
 Route::get('market', 'DraftController@market');
 
 Route::get('overview/{id}', 'PumpController@index');
